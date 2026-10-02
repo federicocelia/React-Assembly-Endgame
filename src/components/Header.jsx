@@ -2,7 +2,7 @@ export default function Header() {
   return (
     <header>
       <h1>Assembly: Endgame</h1>
-      <p>
+      <p className="instructions">
         Guess the word within 8 attempts to keep the programming world safe from
         Assembly!
       </p>

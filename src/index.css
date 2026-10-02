@@ -1,0 +1,63 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --background-color: #262626;
+  --light-text-color: #f9f4da;
+  --dark-text-color: #8e8e8e;
+  --game-status-background-playing: #7a5ea7;
+  --game-status-background-win: #10a95b;
+  --game-status-background-loss: #ba2a2a;
+}
+
+body {
+  background-color: #282726;
+  text-align: center;
+  margin: 0;
+  font-family: "Hanken Grotesk", Arial, sans-serif;
+  background-color: var(--background-color);
+  color: var(--light-text-color);
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  line-height: 1.4;
+}
+
+h1,
+.game-status-title {
+  color: var(--light-text-color);
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+h1 {
+  margin-bottom: 0.5rem;
+}
+
+.instructions {
+  color: var(--dark-text-color);
+  font-size: 0.875rem;
+  max-width: 350px;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.game-status-section {
+  background-color: var(--game-status-background-win);
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.game-status-title,
+.game-status-text {
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+}
+
+.game-status-text {
+  font-size: 1rem;
+}
