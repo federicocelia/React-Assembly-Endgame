@@ -12,7 +12,7 @@
 }
 
 body {
-  background-color: #282726;
+  background-color: var(--background-color);
   text-align: center;
   margin: 0;
   font-family: "Hanken Grotesk", Arial, sans-serif;
@@ -83,4 +83,21 @@ h1 {
 
 p.language {
   margin: 0;
+}
+
+.letters-section {
+  margin: 36px auto 0 auto;
+  display: flex;
+  justify-content: center;
+}
+
+.letter {
+  display: inline-block;
+  font-size: 1.125rem;
+  padding: 0.55rem 0.33rem;
+  margin-right: 2px;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-bottom: 1px solid white;
+  text-align: center;
 }
