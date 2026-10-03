@@ -5,15 +5,32 @@ import { languages } from "./languages.js";
 
 export default function AssemblyEndgame() {
   const [currentWord, setCurrentWord] = useState("react");
+  const [guessedLetters, setGuessedLetters] = useState([]);
 
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+  function addGuessedLetter(event) {
+    const letter = event.currentTarget.id;
+    setGuessedLetters((prevLetters) => {
+      if (prevLetters.includes(letter)) {
+        return prevLetters;
+      } else {
+        return [...prevLetters, letter];
+      }
+    });
+  }
 
   const keyboardElement = alphabet
     .toUpperCase()
     .split("")
     .map((letter) => {
       return (
-        <button key={letter} className="key-letter">
+        <button
+          key={letter}
+          id={letter}
+          className="key-letter"
+          onClick={addGuessedLetter}
+        >
           {letter}
         </button>
       );
