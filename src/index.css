@@ -14,6 +14,8 @@
   --key-color: #1e1e1e;
   --key-border-color: #d7d7d7;
   --new-game-btn: #11b5e5;
+  --right-key-guessed: #10a95b;
+  --wrong-key-guessed: #ec5d49;
 }
 
 body {
@@ -144,4 +146,12 @@ p.language {
   border: 1px solid white;
   border-radius: 0.25rem;
   cursor: pointer;
+}
+
+.wrongKey {
+  background-color: var(--wrong-key-guessed);
+}
+
+.rightKey {
+  background-color: var(--right-key-guessed);
 }

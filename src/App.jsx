@@ -1,4 +1,5 @@
 import { useState } from "react";
+import clsx from "clsx";
 import Header from "../src/components/Header.jsx";
 import GameStatus from "./components/GameStatus.jsx";
 import { languages } from "./languages.js";
@@ -24,12 +25,17 @@ export default function AssemblyEndgame() {
     .toUpperCase()
     .split("")
     .map((letter) => {
+      const isGuessed = guessedLetters.includes(letter);
+      const isCorrect = currentWord.toUpperCase().includes(letter);
       return (
         <button
           key={letter}
           id={letter}
-          className="key-letter"
           onClick={addGuessedLetter}
+          className={clsx("key-letter", {
+            rightKey: isGuessed && isCorrect,
+            wrongKey: isGuessed && !isCorrect,
+          })}
         >
           {letter}
         </button>
