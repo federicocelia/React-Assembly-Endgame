@@ -6,7 +6,7 @@ import { languages } from "./languages.js";
 
 export default function AssemblyEndgame() {
   //state values
-  const [currentWord, setCurrentWord] = useState("smaller");
+  const [currentWord, setCurrentWord] = useState("microscopic");
   const [guessedLetters, setGuessedLetters] = useState([]);
 
   // Static variable
@@ -16,6 +16,8 @@ export default function AssemblyEndgame() {
   const wrongGuessCount = guessedLetters.filter(
     (letter) => !currentWord.toUpperCase().includes(letter),
   ).length;
+
+  const isGameOver = wrongGuessCount === languages.length;
 
   function addGuessedLetter(event) {
     const letter = event.currentTarget.id;
@@ -85,7 +87,7 @@ export default function AssemblyEndgame() {
       <div className="languages-section">{languageElement}</div>
       <div className="letters-section">{lettersElement}</div>
       <section className="keyboard">{keyboardElement}</section>
-      <button className="new-game-btn">New Game</button>
+      {isGameOver ? <button className="new-game-btn">New Game</button> : null}
     </main>
   );
 }
