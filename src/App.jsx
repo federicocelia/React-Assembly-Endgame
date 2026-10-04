@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import clsx from "clsx";
 import Header from "../src/components/Header.jsx";
 import GameStatus from "./components/GameStatus.jsx";
 import { languages } from "./languages.js";
 
 export default function AssemblyEndgame() {
-  const [currentWord, setCurrentWord] = useState("react");
+  //state values
+  const [currentWord, setCurrentWord] = useState("smaller");
   const [guessedLetters, setGuessedLetters] = useState([]);
 
+  // Static variable
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+  // Derived values
+  const wrongGuessCount = guessedLetters.filter(
+    (letter) => !currentWord.toUpperCase().includes(letter),
+  ).length;
 
   function addGuessedLetter(event) {
     const letter = event.currentTarget.id;
