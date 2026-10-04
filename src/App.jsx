@@ -60,13 +60,19 @@ export default function AssemblyEndgame() {
     );
   });
 
-  const languageElement = languages.map((language) => {
+  const languageElement = languages.map((language, index) => {
     const style = {
       backgroundColor: `${language.backgroundColor}`,
       color: `${language.color}`,
     };
     return (
-      <p key={language.name} className="language" style={style}>
+      <p
+        key={language.name}
+        className={clsx("language", {
+          lost: index < wrongGuessCount,
+        })}
+        style={style}
+      >
         {language.name}
       </p>
     );
