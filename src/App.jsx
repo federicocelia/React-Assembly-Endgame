@@ -4,9 +4,9 @@ import Header from "../src/components/Header.jsx";
 import GameStatus from "./components/GameStatus.jsx";
 import { languages } from "./languages.js";
 
-export default function AssemblyEndgame() {
+export default function App() {
   //state values
-  const [currentWord, setCurrentWord] = useState("microscopic");
+  const [currentWord, setCurrentWord] = useState("react");
   const [guessedLetters, setGuessedLetters] = useState([]);
 
   // Static variable
@@ -17,7 +17,15 @@ export default function AssemblyEndgame() {
     (letter) => !currentWord.toUpperCase().includes(letter),
   ).length;
 
-  const isGameOver = wrongGuessCount === languages.length;
+  const isGameWon = currentWord
+    .toUpperCase()
+    .split("")
+    .every((letter) => guessedLetters.includes(letter));
+
+  const isGameOver = wrongGuessCount === languages.length || isGameWon;
+
+  const farewellLanguage =
+    wrongGuessCount > 0 ? languages[wrongGuessCount - 1].name : null;
 
   function addGuessedLetter(event) {
     const letter = event.currentTarget.id;
@@ -83,7 +91,12 @@ export default function AssemblyEndgame() {
   return (
     <main>
       <Header />
-      <GameStatus />
+      <GameStatus
+        isGameOver={isGameOver}
+        isGameWon={isGameWon}
+        isGameLost={isGameOver && !isGameWon}
+        farewellLanguage={farewellLanguage}
+      />
       <div className="languages-section">{languageElement}</div>
       <div className="letters-section">{lettersElement}</div>
       <section className="keyboard">{keyboardElement}</section>
