@@ -26,7 +26,7 @@ export default function AssemblyEndgame() {
     .split("")
     .map((letter) => {
       const isGuessed = guessedLetters.includes(letter);
-      const isCorrect = currentWord.toUpperCase().includes(letter);
+      const isCorrect = isGuessed && currentWord.toUpperCase().includes(letter);
       return (
         <button
           key={letter}
@@ -45,9 +45,10 @@ export default function AssemblyEndgame() {
   const lettersArray = [...currentWord.toUpperCase()];
 
   const lettersElement = lettersArray.map((letter, index) => {
+    const isGuessed = guessedLetters.includes(letter);
     return (
       <span key={index} className="letter">
-        {letter}
+        {isGuessed ? letter : ""}
       </span>
     );
   });
