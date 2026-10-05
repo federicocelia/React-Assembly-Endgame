@@ -3,10 +3,11 @@ import clsx from "clsx";
 import Header from "../src/components/Header.jsx";
 import GameStatus from "./components/GameStatus.jsx";
 import { languages } from "./languages.js";
+import { randomWord } from "./utils.js";
 
 export default function App() {
   //state values
-  const [currentWord, setCurrentWord] = useState("react");
+  const [currentWord, setCurrentWord] = useState(() => randomWord());
   const [guessedLetters, setGuessedLetters] = useState([]);
 
   // Static variable
@@ -26,6 +27,8 @@ export default function App() {
 
   const farewellLanguage =
     wrongGuessCount > 0 ? languages[wrongGuessCount - 1].name : null;
+
+  const lastGuessedLetter = guessedLetters[guessedLetters.length - 1];
 
   function addGuessedLetter(event) {
     const letter = event.currentTarget.id;
@@ -49,7 +52,9 @@ export default function App() {
           key={letter}
           id={letter}
           onClick={addGuessedLetter}
-          disabled={isGameOver ? true : false}
+          disabled={isGameOver}
+          aria-disabled={isGameOver}
+          aria-label={`letter: ${letter}`}
           className={clsx("key-letter", {
             rightKey: isGuessed && isCorrect,
             wrongKey: isGuessed && !isCorrect,
@@ -89,10 +94,16 @@ export default function App() {
     );
   });
 
+  function resetGame() {
+    setCurrentWord(() => randomWord());
+    setGuessedLetters([]);
+  }
   return (
     <main>
       <Header />
       <GameStatus
+        aria-live="polite"
+        role="status"
         isGameOver={isGameOver}
         isGameWon={isGameWon}
         isGameLost={isGameOver && !isGameWon}
@@ -100,8 +111,33 @@ export default function App() {
       />
       <div className="languages-section">{languageElement}</div>
       <div className="letters-section">{lettersElement}</div>
+      {/* Combined visually-hidden aria-live region for status updates */}
+      <section className="sr-only" aria-live="polite" role="status">
+        <p>
+          {currentWord.includes(lastGuessedLetter)
+            ? `Correct! The letter ${lastGuessedLetter} is in the word.`
+            : `Sorry! The letter ${lastGuessedLetter} is not in the word.`}
+          You have {`${languages.length - wrongGuessCount}`} attempt
+          {languages.length - wrongGuessCount > 1 ? `s` : ""} left.
+        </p>
+
+        <p>
+          Current word:
+          {currentWord
+            .toUpperCase()
+            .split("")
+            .map((letter) =>
+              guessedLetters.includes(letter) ? letter : "blank",
+            )
+            .join(" ")}
+        </p>
+      </section>
       <section className="keyboard">{keyboardElement}</section>
-      {isGameOver ? <button className="new-game-btn">New Game</button> : null}
+      {isGameOver ? (
+        <button className="new-game-btn" onClick={() => resetGame()}>
+          New Game
+        </button>
+      ) : null}
     </main>
   );
 }
