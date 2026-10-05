@@ -190,3 +190,11 @@ p.language {
   white-space: nowrap;
   border: 0;
 }
+
+.guessedLetter {
+  color: green;
+}
+
+.notGuessedLetter {
+  color: red;
+}

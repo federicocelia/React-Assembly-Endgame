@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import clsx from "clsx";
 import Header from "../src/components/Header.jsx";
-import GameStatus from "./components/GameStatus.jsx";
+import GameStatus from "../src/components/GameStatus.jsx";
+import { ConfettiSection } from "./components/ConfettiSection.jsx";
 import { languages } from "./languages.js";
 import { randomWord } from "./utils.js";
 
@@ -68,10 +69,15 @@ export default function App() {
   const lettersArray = [...currentWord.toUpperCase()];
 
   const lettersElement = lettersArray.map((letter, index) => {
-    const isGuessed = guessedLetters.includes(letter);
+    const isCorrect = guessedLetters.includes(letter);
+    const className = clsx("letter", {
+      guessedLetter: isCorrect && isGameOver,
+      notGuessedLetter: !isCorrect && isGameOver,
+    });
+
     return (
-      <span key={index} className="letter">
-        {isGuessed ? letter : ""}
+      <span key={index} className={className}>
+        {isCorrect ? letter : isGameOver ? letter : ""}
       </span>
     );
   });
@@ -99,45 +105,48 @@ export default function App() {
     setGuessedLetters([]);
   }
   return (
-    <main>
-      <Header />
-      <GameStatus
-        aria-live="polite"
-        role="status"
-        isGameOver={isGameOver}
-        isGameWon={isGameWon}
-        isGameLost={isGameOver && !isGameWon}
-        farewellLanguage={farewellLanguage}
-      />
-      <div className="languages-section">{languageElement}</div>
-      <div className="letters-section">{lettersElement}</div>
-      {/* Combined visually-hidden aria-live region for status updates */}
-      <section className="sr-only" aria-live="polite" role="status">
-        <p>
-          {currentWord.includes(lastGuessedLetter)
-            ? `Correct! The letter ${lastGuessedLetter} is in the word.`
-            : `Sorry! The letter ${lastGuessedLetter} is not in the word.`}
-          You have {`${languages.length - wrongGuessCount}`} attempt
-          {languages.length - wrongGuessCount > 1 ? `s` : ""} left.
-        </p>
+    <div className="winGame">
+      {isGameWon ? <ConfettiSection /> : null}
+      <main>
+        <Header />
+        <GameStatus
+          aria-live="polite"
+          role="status"
+          isGameOver={isGameOver}
+          isGameWon={isGameWon}
+          isGameLost={isGameOver && !isGameWon}
+          farewellLanguage={farewellLanguage}
+        />
+        <div className="languages-section">{languageElement}</div>
+        <div className="letters-section">{lettersElement}</div>
+        {/* Combined visually-hidden aria-live region for status updates */}
+        <section className="sr-only" aria-live="polite" role="status">
+          <p>
+            {currentWord.includes(lastGuessedLetter)
+              ? `Correct! The letter ${lastGuessedLetter} is in the word.`
+              : `Sorry! The letter ${lastGuessedLetter} is not in the word.`}
+            You have {`${languages.length - wrongGuessCount}`} attempt
+            {languages.length - wrongGuessCount > 1 ? `s` : ""} left.
+          </p>
 
-        <p>
-          Current word:
-          {currentWord
-            .toUpperCase()
-            .split("")
-            .map((letter) =>
-              guessedLetters.includes(letter) ? letter : "blank",
-            )
-            .join(" ")}
-        </p>
-      </section>
-      <section className="keyboard">{keyboardElement}</section>
-      {isGameOver ? (
-        <button className="new-game-btn" onClick={() => resetGame()}>
-          New Game
-        </button>
-      ) : null}
-    </main>
+          <p>
+            Current word:
+            {currentWord
+              .toUpperCase()
+              .split("")
+              .map((letter) =>
+                guessedLetters.includes(letter) ? letter : "blank",
+              )
+              .join(" ")}
+          </p>
+        </section>
+        <section className="keyboard">{keyboardElement}</section>
+        {isGameOver ? (
+          <button className="new-game-btn" onClick={() => resetGame()}>
+            New Game
+          </button>
+        ) : null}
+      </main>
+    </div>
   );
 }
