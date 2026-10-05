@@ -1,3 +1,5 @@
+import { getFarewellText } from "../utils.js";
+
 export default function GameStatus(props) {
   function renderGameStatus() {
     if (props.isGameLost) {
@@ -24,7 +26,7 @@ export default function GameStatus(props) {
       return (
         <>
           <h2 className="game-status-title">
-            Farewell {props.farewellLanguage} 🫡
+            {getFarewellText(props.farewellLanguage)} 🫡
           </h2>
         </>
       );

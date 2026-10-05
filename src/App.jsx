@@ -49,6 +49,7 @@ export default function App() {
           key={letter}
           id={letter}
           onClick={addGuessedLetter}
+          disabled={isGameOver ? true : false}
           className={clsx("key-letter", {
             rightKey: isGuessed && isCorrect,
             wrongKey: isGuessed && !isCorrect,
